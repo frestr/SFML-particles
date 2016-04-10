@@ -7,16 +7,30 @@
 #include "uimanager.h"
 #include "inputhandler.h"
 
-int main()
+int getParticleNum(char* argv[])
+{
+    int particleNum;
+    try
+    {
+        particleNum = std::stoi(std::string(argv[1]));
+    }
+    catch (const std::exception& ex)
+    {
+        particleNum = 200000;
+    }
+    return particleNum;
+}
+
+int main(int argc, char* argv[])
 {
     sf::RenderWindow window(sf::VideoMode(1600, 900), "Particle test");
     window.setFramerateLimit(60);
 
-    int particleNum = 500000;
-
     sf::Clock clock;
     sf::Clock fpsTimer;
     int scrollDelta;
+
+    int particleNum = getParticleNum(argv);
 
     ParticleManager particleManager(particleNum, window.getSize());
     UIManager ui(window.getView());
@@ -69,11 +83,6 @@ int main()
         {
             particleManager.moveParticlesTowardsMouse(dt, sf::Vector2i(-1, -1));
         }
-
-        //sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-        //mousePos.x *= (view.getSize().x / 2) / window.getSize().x;
-        //mousePos.y *= (view.getSize().y / 2) / window.getSize().y;
-
 
         window.clear();
 
