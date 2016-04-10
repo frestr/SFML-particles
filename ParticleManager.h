@@ -8,18 +8,18 @@
 class ParticleManager
 {
 private:
-	std::vector<Particle> particles;
-	sf::VertexArray particleVertices;
+    std::vector<Particle> particles;
+    sf::VertexArray particleVertices;
 
-	const int threadNum;
-	std::thread threads[15];
+    const int threadNum;
+    std::thread threads[15];
 
-	void moveParticleBatch(int offset, int batchSize, double dt, sf::Vector2i mousePos);
+    void moveParticleBatch(int offset, int batchSize, double dt, sf::Vector2i mousePos);
 
 public:
-	ParticleManager(int particleNum, sf::Vector2u windowSize);
-	void reset(int particleNum, sf::Vector2u windowSize);
+    ParticleManager(int particleNum, sf::Vector2u windowSize);
+    void reset(int particleNum, sf::Vector2u windowSize);
 
-	void drawParticles(sf::RenderWindow &window);
-	void moveParticlesTowardsMouse(double dt, sf::Vector2i mousePos);
+    void drawParticles(sf::RenderWindow &window);
+    void moveParticlesTowardsMouse(double dt, sf::Vector2i mousePos);
 };
