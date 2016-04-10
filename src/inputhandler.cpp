@@ -21,8 +21,7 @@ void InputHandler::readInput(sf::RenderWindow& window)
                 break;
             case sf::Event::KeyPressed:
                 if (isKeyActive(event.key.code))
-                    activeKeys.erase(std::remove(activeKeys.begin(), activeKeys.end(), event.key.code), 
-                            activeKeys.end());
+                    untoggleKey(event.key.code);
                 else
                     activeKeys.push_back(event.key.code);
                 break;
@@ -52,6 +51,11 @@ bool InputHandler::isKeyActive(sf::Keyboard::Key key)
     return std::find(activeKeys.begin(), activeKeys.end(), key) != activeKeys.end();
 }
 
+void InputHandler::untoggleKey(sf::Keyboard::Key key)
+{
+    activeKeys.erase(std::remove(activeKeys.begin(), activeKeys.end(), key), 
+            activeKeys.end());
+}
 
 bool InputHandler::shouldCloseWindow()
 {

@@ -7,20 +7,6 @@
 #include "uimanager.h"
 #include "inputhandler.h"
 
-/*
-TODO:
-
-- Find out why the simulation seems to go in fast motion when the
-  mouse button is pressed down (i.e. the particles are changing their velocity)
-
-- Add some color effect
-
-- Add the ability to zoom
-
-- Maybe add some other effect than following the mouse pointer
-
-*/
-
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1600, 900), "Particle test");
@@ -69,9 +55,10 @@ int main()
         {
             window.close();
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+        if (input.isKeyActive(sf::Keyboard::Key::R))
         {
             particleManager.reset(particleNum, window.getSize());
+            input.untoggleKey(sf::Keyboard::Key::R);
         }
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {

@@ -10,6 +10,7 @@ public:
 
     void readInput(sf::RenderWindow& window);
     bool isKeyActive(sf::Keyboard::Key key);
+    void untoggleKey(sf::Keyboard::Key key);
     bool shouldCloseWindow();
     bool mouseClicked(char button=' ');
     sf::Vector2f getClickPos();
