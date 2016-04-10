@@ -1,5 +1,4 @@
-#ifndef PARTICLEMANAGER_H
-#define PARTICLEMANAGER_H
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include <vector>
@@ -24,5 +23,3 @@ public:
 	void drawParticles(sf::RenderWindow &window);
 	void moveParticlesTowardsMouse(double dt, sf::Vector2i mousePos);
 };
-
-#endif
