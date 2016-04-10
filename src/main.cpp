@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include "particlemanager.h"
+#include "uimanager.h"
 
 /*
 TODO:
@@ -29,15 +30,7 @@ int main()
     ParticleManager particleManager(particleNum, window.getSize());
     sf::Clock clock;
 
-    sf::Font font;
-    if (!font.loadFromFile("resources/arial.ttf"))
-    {
-        return 0;
-    }
-
-    sf::Text fpsCounter;
-    fpsCounter.setFont(font);
-    fpsCounter.setPosition(10, 0);
+    UIManager ui(window.getView());
 
     sf::Clock fpsTimer;
 
@@ -53,7 +46,7 @@ int main()
         {
             fpsTimer.restart();
             int fps = (1.0 / dt > 60) ? 60 : (1.0 / dt);
-            fpsCounter.setString("fps: " + std::to_string(fps));
+            ui.setFps(fps);
         }
 
         sf::Event event;
@@ -93,8 +86,10 @@ int main()
 
 
         window.clear();
+
         particleManager.drawParticles(window);
-        window.draw(fpsCounter);
+        ui.drawUI(window);
+
         window.display();
     }
 
