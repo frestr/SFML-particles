@@ -1,4 +1,4 @@
-#include "ParticleManager.h"
+#include "particlemanager.h"
 #include <SFML/Graphics/VertexArray.hpp>
 #include <iostream>
 #include <random>

@@ -3,7 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
-#include "ParticleManager.h"
+#include "particlemanager.h"
 
 /*
 TODO:
@@ -30,7 +30,7 @@ int main()
     sf::Clock clock;
 
     sf::Font font;
-    if (!font.loadFromFile("arial.ttf"))
+    if (!font.loadFromFile("resources/arial.ttf"))
     {
         return 0;
     }

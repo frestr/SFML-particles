@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <thread>
-#include "Particle.h"
+#include "particle.h"
 
 class ParticleManager
 {
@@ -11,13 +11,14 @@ private:
     std::vector<Particle> particles;
     sf::VertexArray particleVertices;
 
-    const int threadNum;
-    std::thread threads[15];
+    int threadNum;
+    std::vector<std::thread> threads;
 
     void moveParticleBatch(int offset, int batchSize, double dt, sf::Vector2i mousePos);
 
 public:
     ParticleManager(int particleNum, sf::Vector2u windowSize);
+    ~ParticleManager();
     void reset(int particleNum, sf::Vector2u windowSize);
 
     void drawParticles(sf::RenderWindow &window);
