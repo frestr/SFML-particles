@@ -1,6 +1,6 @@
 CXX=g++
 CPPFLAGS=-std=c++11 -c
-LDFLAGS=-g
+LDFLAGS=
 LDLIBS=-lsfml-graphics -lsfml-window -lsfml-system -lpthread
 
 SRCS=main.cpp Particle.cpp ParticleManager.cpp

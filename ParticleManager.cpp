@@ -2,10 +2,22 @@
 #include <SFML/Graphics/VertexArray.hpp>
 #include <iostream>
 #include <random>
+#include <memory>
 
-ParticleManager::ParticleManager(int particleNum, sf::Vector2u windowSize) : threadNum(15)
+ParticleManager::ParticleManager(int particleNum, sf::Vector2u windowSize)
 {
+    threadNum = std::thread::hardware_concurrency();
+    if (threadNum == 0)
+        threadNum = 1;
+
+    threads = std::vector<std::thread>(threadNum);
+
     reset(particleNum, windowSize);
+}
+
+ParticleManager::~ParticleManager()
+{
+
 }
 
 void ParticleManager::reset(int particleNum, sf::Vector2u windowSize)
@@ -37,15 +49,10 @@ void ParticleManager::moveParticlesTowardsMouse(double dt, sf::Vector2i mousePos
     int batchSize = particles.size() / threadNum;
 
     for (int i = 0; i < threadNum; ++i)
-    {
-        threads[i] = std::thread(&ParticleManager::moveParticleBatch, this, i, batchSize, dt, mousePos);
-        //threads[i].detach();
-    }
+        threads.at(i) = std::thread(&ParticleManager::moveParticleBatch, this, i, batchSize, dt, mousePos);
     
     for (int i = 0; i < threadNum; ++i)
-    {
-        threads[i].join();
-    }
+        threads.at(i).join();
 }
 
 void ParticleManager::moveParticleBatch(int offset, int batchSize, double dt, sf::Vector2i mousePos)
