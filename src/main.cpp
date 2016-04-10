@@ -5,6 +5,7 @@
 #include <string>
 #include "particlemanager.h"
 #include "uimanager.h"
+#include "inputhandler.h"
 
 /*
 TODO:
@@ -27,12 +28,13 @@ int main()
 
     int particleNum = 500000;
 
-    ParticleManager particleManager(particleNum, window.getSize());
     sf::Clock clock;
-
-    UIManager ui(window.getView());
-
     sf::Clock fpsTimer;
+    int scrollDelta;
+
+    ParticleManager particleManager(particleNum, window.getSize());
+    UIManager ui(window.getView());
+    InputHandler input;
 
     sf::View view;
     view.setSize(window.getSize().x, window.getSize().y);
@@ -41,26 +43,26 @@ int main()
 
     while (window.isOpen())
     {
+        input.readInput(window);
+        if (input.shouldCloseWindow())
+        {
+            window.close();
+            break;
+        }
+
+        int scrollDelta = input.mouseScrolled();
+        if (scrollDelta > 0 && view.getSize().y > 100)
+            view.zoom(0.75);
+        else if (scrollDelta < 0 && view.getSize().y < 16000)
+            view.zoom(1.0/0.75);
+        window.setView(view);
+
         double dt = clock.restart().asSeconds();
         if (fpsTimer.getElapsedTime().asMilliseconds() > 100)
         {
             fpsTimer.restart();
             int fps = (1.0 / dt > 60) ? 60 : (1.0 / dt);
             ui.setFps(fps);
-        }
-
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-            
-            if (event.type == sf::Event::MouseWheelMoved)
-            {
-                view.zoom(2.0f);
-                window.setView(view);
-            }
-            
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
@@ -73,7 +75,8 @@ int main()
         }
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
-            particleManager.moveParticlesTowardsMouse(dt, sf::Mouse::getPosition(window));
+            sf::Vector2i mousePos = input.getGlobalMousePos(window);
+            particleManager.moveParticlesTowardsMouse(dt, mousePos);
         }
         else
         {
