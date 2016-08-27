@@ -1,4 +1,5 @@
 #include "particle.h"
+#include <cmath>
 
 Particle::Particle(sf::Vertex* point, sf::Vector2f pos)
 {
